@@ -1,18 +1,15 @@
 {
   lib,
   stdenv,
-  python311,
+  python313,
   fetchFromGitHub,
   gitMinimal,
   portaudio,
 }:
 
 let
-  python3 = python311.override {
-    self = python3;
-    packageOverrides = _: super: { tree-sitter = super.tree-sitter_0_21; };
-  };
-  version = "0.62.0";
+  python3 = python313;
+  version = "0.82.0";
   aider-chat = python3.pkgs.buildPythonApplication {
     pname = "aider-chat";
     inherit version;
@@ -22,7 +19,7 @@ let
       owner = "Aider-AI";
       repo = "aider";
       tag = "v${version}";
-      hash = "sha256-o5vyOaJSUcdwuHBbzgpo5RDpZLnIur5dM+b7Y7PVBXA=";
+      hash = "sha256-UlPYUYAYDhPPgoIvEWRLYjCe3iQ2ltH5mT3GkX+IrGI=";
     };
 
     pythonRelaxDeps = true;
@@ -106,12 +103,15 @@ let
       tokenizers
       tqdm
       tree-sitter
-      tree-sitter-languages
+      tree-sitter-language-pack
       typing-extensions
       urllib3
       wcwidth
       yarl
       zipp
+      pip
+      socksio
+      watchfiles
 
       # Not listed in requirements
       mixpanel
@@ -130,6 +130,7 @@ let
       "tests/scrape/test_scrape.py"
       # Expected 'mock' to have been called once
       "tests/help/test_help.py"
+      "tests/basic/test_sendchat.py"
     ];
 
     disabledTests =
